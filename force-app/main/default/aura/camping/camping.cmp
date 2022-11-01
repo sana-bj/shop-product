@@ -1,0 +1,4 @@
+<aura:component implements="flexipage:availableForRecordHome">
+
+    <c:campingList />
+</aura:component>

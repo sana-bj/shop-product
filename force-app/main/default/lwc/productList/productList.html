@@ -1,0 +1,124 @@
+<template>
+    <div class="container">
+        <div class="row">
+            <div class="col-8">
+
+                <lightning-card  icon-name="utility:mes
+                    produits">
+
+                    <div class="slds-card__body slds-card__body_inner">
+                        <template if:true={products}>
+                            <lightning-input type="search"
+                                onchange={searchTermChange}
+                                variant="label-hidden"
+                                class="slds-var-m-bottom_small"
+                                label="Search"
+                                placeholder="chercher Produits"
+                                value={searchTerm}>
+                            </lightning-input>
+
+
+                            <c-add></c-add>
+
+                            <lightning-layout multiple-rows="true"
+                                pull-to-boundary="small">
+                                <template for:each={products} for:item="product">
+                                    <lightning-layout-item key={product.Id}
+                                        size="3" class="product-item">
+                                        <lightning-card title={product.Name}
+                                            data-id={product.Id}
+                                            data-des={product.Description__c}
+                                            data-name={product.Name}
+                                            onclick={productSelected}>
+                                            <div class="" data-id={product.Id}
+                                                data-name={product.Name}
+                                                data-des={product.Description__c}
+                                                onclick={productSelected}
+                                               >
+                                                <div class="slds-media"
+                                                    data-id={product.Id}
+                                                    data-des={product.Description__c}
+                                                    data-name={product.Name}
+                                                    onclick={productSelected}
+                                                  >
+                                                    <div
+                                                        class="slds-media__figure">
+                                                        <img
+                                                            src={appResources.photo}
+                                                            alt="product"
+                                                            class="bear-silhouette"/>
+                                                    </div>
+                                                    <div
+                                                        class="slds-media__body">
+                                                        <p
+                                                            class="slds-var-m-bottom_xx-small">{product.price__c}
+                                                            €</p>
+                                                        <p
+                                                            class="slds-var-m-bottom_xx-small">Promo
+                                                            : {product.promo} %</p>
+                                                    </div>
+                                                    <lightning-button-icon
+                                                        icon-name="utility:zoomin"
+                                                        alternative-text="Zoom
+                                                        in"
+                                                        class="slds-m-left_xx-small
+                                                        mt-3 mb-3" title="Zoom
+                                                        in" data-id={product.Id}
+                                                        onclick={showProductSelected}>
+                                                    </lightning-button-icon>
+                                                    <lightning-button-icon
+                                                        icon-name="utility:zoomin"
+                                                        alternative-text="Zoom
+                                                        in"
+                                                        class="slds-m-left_xx-small
+                                                        mt-3 mb-3" title="Ajouter au panier" data-id={product.Id}
+                                                        data-photo={product.photo}
+                                                        data-prix={product.prix}
+                                                        data-name={product.Name}
+                                                        onclick={addProduct}>
+                                                    </lightning-button-icon>
+                                                    <lightning-button-icon
+                                                        icon-name="utility:delete"
+                                                        alternative-text="Delete"
+                                                        class="slds-m-left_xx-small
+                                                        mt-3 mb-3"
+                                                        title="Delete"
+                                                        data-id={product.Id}
+                                                        onclick={deleteProductSelected}></lightning-button-icon>
+                                                </div>
+                                            </div>
+
+                                        </lightning-card>
+                                    </lightning-layout-item>
+                                </template>
+
+</lightning-layout>
+</template>
+
+
+</div>
+
+</lightning-card>
+</div>
+
+<div class="col-4" if:true={selectedProductName}>
+    <lightning-card>
+        <div class="slds-card__body slds-card__body_inner">
+            <c-detail des={selectedProductDes} name={selectedProductName} photo={selectedProductPhoto}></c-detail>
+        </div>
+
+    </lightning-card>
+
+</div>
+
+
+</div>
+</div>
+
+
+
+
+
+
+
+</template>

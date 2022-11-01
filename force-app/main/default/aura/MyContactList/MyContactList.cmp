@@ -1,0 +1,15 @@
+<aura:component controller="MyContactListController" implements="flexipage:availableForAllPageTypes" access="global">
+
+    <aura:attribute name="Account" type="Account" />
+    <aura:attribute name="Contacts" type="Contact" />
+    <aura:attribute name="Columns" type="List" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.myAction}" />
+
+    <lightning:card>
+        <lightning:datatable data="{! v.Contacts }" columns="{! v.Columns }" keyField="Id" />
+
+    </lightning:card>
+
+
+</aura:component>

@@ -1,0 +1,12 @@
+.product-item {
+    border: 1px solid #5d90d2;
+    border-radius: .25rem;
+    background-color: #d2effa;
+    width: 100%;
+    padding: 4px;
+    margin-top: 5px;
+}
+
+.bear-silhouette {
+    height: 100px;
+}
