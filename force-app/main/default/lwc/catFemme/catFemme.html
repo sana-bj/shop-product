@@ -3,14 +3,14 @@
         <div class="row">
             <div class="col-8">
 
-                <lightning-card title="Products" icon-name="utility:mes
+                <lightning-card  icon-name="utility:mes
                     produits">
 
                     <div class="slds-card__body slds-card__body_inner">
                         <template if:true={products}>
                             <lightning-input type="search"
                                 onchange={searchTermChange}
-                            
+                                variant="label-hidden"
                                 class="slds-var-m-bottom_small"
                                 label="Search"
                                 placeholder="chercher Produits"
@@ -18,7 +18,7 @@
                             </lightning-input>
 
 
-                        
+                            <c-add></c-add>
 
                             <lightning-layout multiple-rows="true"
                                 pull-to-boundary="small">
@@ -33,12 +33,13 @@
                                             <div class="" data-id={product.Id}
                                                 data-name={product.Name}
                                                 data-des={product.Description__c}
-                                                onclick={productSelected}>
+                                                onclick={productSelected}
+                                               >
                                                 <div class="slds-media"
                                                     data-id={product.Id}
                                                     data-des={product.Description__c}
                                                     data-name={product.Name}
-                                                    onclick={productSelected}>
+                                                  >
                                                     <div
                                                         class="slds-media__figure">
                                                         <img
@@ -51,9 +52,7 @@
                                                         <p
                                                             class="slds-var-m-bottom_xx-small">{product.price__c}
                                                             €</p>
-                                                        <p
-                                                            class="slds-var-m-bottom_xx-small">Promo
-                                                            : {product.promo} %</p>
+                                                  
                                                     </div>
                                                     <lightning-button-icon
                                                         icon-name="utility:zoomin"
@@ -62,15 +61,10 @@
                                                         class="slds-m-left_xx-small
                                                         mt-3 mb-3" title="Zoom
                                                         in" data-id={product.Id}
-                                                        onclick={showProductSelected}></lightning-button-icon>
-                                                    <lightning-button-icon
-                                                        icon-name="utility:delete"
-                                                        alternative-text="Delete"
-                                                        class="slds-m-left_xx-small
-                                                        mt-3 mb-3"
-                                                        title="Delete"
-                                                        data-id={product.Id}
-                                                        onclick={deleteProductSelected}></lightning-button-icon>
+                                                        onclick={showProductSelected}>
+                                                    </lightning-button-icon>
+                                                    
+                                                   
                                                 </div>
                                             </div>
 
@@ -89,13 +83,7 @@
 
 
 
+
 </div>
 </div>
-
-
-
-
-
-
-
 </template>

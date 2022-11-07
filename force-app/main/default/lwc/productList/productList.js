@@ -12,21 +12,26 @@ import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 
+
 export default class ProductList extends NavigationMixin(LightningElement) {
     //@wire(listProducts) products;
     @wire(searchProducts, { searchTerm: '$searchTerm' })
 
     openModal = false;
+    @track local;
     products;
     error;
     searchTerm = '';
     panier = [];
+    @track total = 0;
+    subtotal = 0;
     // @wire(searchProducts, { searchTerm: '$searchTerm' })
 
     selectedProductDes;
     selectedProductName;
     selectedProductPhoto;
     selectedProduct = false;
+    panierSelected = false;
 
 
     appResources = {
@@ -48,23 +53,16 @@ export default class ProductList extends NavigationMixin(LightningElement) {
         // refreshApex(this.products);
         this.loadBootstrap();
         this.loadProducts();
-
+        this.loadPanier();
 
     }
     loadProducts() {
         listProducts()
             .then(result => {
-                /*  console.log(result);
-                const newResult = result.map((obj, i) => ({
-                    ...obj,
-                    promo: obj.price__c * 0.3
-
-                }));*/
-                console.log('fffffffffff' + result);
+                //console.log('fffffffffff' + result);
                 this.products = result;
             })
             .catch(error => {
-                //console.log('errrrrrrrr');
                 this.error = error;
             });
     }
@@ -91,21 +89,22 @@ export default class ProductList extends NavigationMixin(LightningElement) {
     }
 
     productSelected(evt) {
-        console.log(evt);
+        //console.log(evt);
         evt.preventDefault();
-        selectedProduct = true;
+        //selectedProduct = true;
         //console.log('id => ' + evt.target.dataset.id);
         this.selectedProductId = evt.target.dataset.id;
         this.selectedProductName = evt.target.dataset.name;
         this.selectedProductDes = evt.target.dataset.des;
         this.selectedProductPhoto = evt.target.dataset.photo;
+        this.panierSelected = false;
 
         //console.log("hellooo" + this.selectedProductId.Name);
     }
 
     showProductSelected(evt) {
 
-        console.log(evt.target.dataset.id)
+        //console.log(evt.target.dataset.id)
         const productId = evt.target.dataset.id;
 
         this[NavigationMixin.Navigate]({
@@ -147,35 +146,36 @@ export default class ProductList extends NavigationMixin(LightningElement) {
 
 
     }
-
+    hanldeProgressValueChange(event) {
+        this.panier = event.detail;
+    }
     addProduct(evt) {
-        const id = evt.target.dataset.id;
+        const productId = evt.target.dataset.id;
         const name = evt.target.dataset.name;
-        const image = evt.target.dataset.image;
         const prix = evt.target.dataset.prix;
-        selectedProduct = false;
-        // console.log('mu id', id);
-        let articleTrouve = this.findElemnt(this.panier, id);
+        this.panierSelected = true;
+        this.selectedProductName = false;
+        this.total = 0;
+        console.log('====>', this.panier);
 
+        let articleTrouve = this.findElemnt(this.panier, productId);
+        console.log('====> article', articleTrouve);
         if (articleTrouve == null) {
-
-
-            this.panier.push({ idP: id, nameP: name, prixP: prix, qte: 1 });
+            this.panier.push({ idP: productId, nameP: name, prixP: prix, qte: 1 });
             console.log(this.panier)
         } else {
-
             articleTrouve.qte = articleTrouve.qte + 1;
-
         }
+        this.panier.forEach(p => {
+            this.subtotal = p.prixP * p.qte;
+            this.total = this.total + this.subtotal;
+        });
+
+        localStorage.setItem("panier", JSON.stringify(this.panier));
 
 
-
-        localStorage.setItem("cart", JSON.stringify(this.panier));
-
-
-
+        //  localStorage.setItem("cart", JSON.stringify(this.panier));
     }
-
 
     handleOpenModal() {
         this.openModal = true;
@@ -185,24 +185,18 @@ export default class ProductList extends NavigationMixin(LightningElement) {
     }
     findElemnt(panier, value) {
 
-        console.log('valeur ', value);
-        const product = panier.find(i => i.idP == value);
-
-        if (product != null) {
-
-
-            return product;
-        } else {
-
-            return null;
-        }
+        const result = panier.find(({ idP }) => idP === value);
+        console.log(result);
+        return result
 
 
+    }
+    loadPanier() {
+
+        this.panier = localStorage.getItem("panier");
 
 
-
-
-
+        if (this.panier == null) { this.panier = []; } else { this.panier = JSON.parse(this.panier); }
 
     }
 }

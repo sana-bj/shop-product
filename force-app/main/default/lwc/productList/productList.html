@@ -24,23 +24,18 @@
                                 pull-to-boundary="small">
                                 <template for:each={products} for:item="product">
                                     <lightning-layout-item key={product.Id}
-                                        size="3" class="product-item">
+                                        size="3" class="product-item" >
                                         <lightning-card title={product.Name}
                                             data-id={product.Id}
                                             data-des={product.Description__c}
                                             data-name={product.Name}
-                                            onclick={productSelected}>
+                                           >
                                             <div class="" data-id={product.Id}
                                                 data-name={product.Name}
                                                 data-des={product.Description__c}
-                                                onclick={productSelected}
+                                                
                                                >
-                                                <div class="slds-media"
-                                                    data-id={product.Id}
-                                                    data-des={product.Description__c}
-                                                    data-name={product.Name}
-                                                    onclick={productSelected}
-                                                  >
+                                                <div class="slds-media" >
                                                     <div
                                                         class="slds-media__figure">
                                                         <img
@@ -48,22 +43,28 @@
                                                             alt="product"
                                                             class="bear-silhouette"/>
                                                     </div>
-                                                    <div
-                                                        class="slds-media__body">
+                                                    <div class="slds-media__body" >
                                                         <p
                                                             class="slds-var-m-bottom_xx-small">{product.price__c}
                                                             €</p>
-                                                        <p
-                                                            class="slds-var-m-bottom_xx-small">Promo
-                                                            : {product.promo} %</p>
+                                                  
                                                     </div>
+                                                    <lightning-button-icon
+                                                        icon-name="action:preview"
+                                                        alternative-text="Zoom
+                                                        in"
+                                                        class="slds-m-left_xx-small
+                                                        mt-3 mb-3" title="Zoomin"
+                                                        data-id={product.Id}
+                                                        data-des={product.Description__c}
+                                                        data-name={product.Name} onclick={productSelected}>
+                                                    </lightning-button-icon>
                                                     <lightning-button-icon
                                                         icon-name="utility:zoomin"
                                                         alternative-text="Zoom
                                                         in"
                                                         class="slds-m-left_xx-small
-                                                        mt-3 mb-3" title="Zoom
-                                                        in" data-id={product.Id}
+                                                        mt-3 mb-3" title="Zoomin" data-id={product.Id}
                                                         onclick={showProductSelected}>
                                                     </lightning-button-icon>
                                                     <lightning-button-icon
@@ -71,9 +72,9 @@
                                                         alternative-text="Zoom
                                                         in"
                                                         class="slds-m-left_xx-small
-                                                        mt-3 mb-3" title="Ajouter au panier" data-id={product.Id}
-                                                        data-photo={product.photo}
-                                                        data-prix={product.prix}
+                                                        mt-3 mb-3" title="Ajouter au panier"
+                                                         data-id={product.Id}
+                                                        data-prix={product.price__c}
                                                         data-name={product.Name}
                                                         onclick={addProduct}>
                                                     </lightning-button-icon>
@@ -111,14 +112,17 @@
 
 </div>
 
+<div class="col-4" if:true={panierSelected}>
+    <lightning-card>
+        <div class="slds-card__body slds-card__body_inner">
+            <c-panier products={panier} total={total}></c-panier>
+        </div>
+
+    </lightning-card>
+
+</div>
+
 
 </div>
 </div>
-
-
-
-
-
-
-
 </template>
